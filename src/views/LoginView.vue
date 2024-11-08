@@ -1,6 +1,6 @@
 <template>
   <div class="page d-flex flex-column-reverse align-center justify-center">
-    <v-card class="mx-auto pa-12 pb-8" elevation="8" min-width="16%" rounded="lg">
+    <v-card class="mx-auto pa-12 pb-8 login-card" elevation="8" rounded="lg" :min-width="mdAndUp ? '16%' : '80%'">
 
       <p v-if="!loginIsValid" class="mb-4 text-red">Invalid username/password combination</p>
 
@@ -34,6 +34,9 @@ import {ref} from "vue";
 import {useFirebaseAuth} from "vuefire";
 import {signInWithEmailAndPassword} from "@firebase/auth";
 import {useRouter} from "vue-router";
+import {useDisplay} from "vuetify";
+
+const { mdAndUp } = useDisplay();
 
 const auth = useFirebaseAuth();
 const router = useRouter();
@@ -61,5 +64,10 @@ const signIn = () => {
   background-color: #1a1a1a;
   background-image: url("src/assets/login.png");
   background-size: cover;
+  background-position: center;
+}
+
+.login-card {
+  min-width: 16%;
 }
 </style>

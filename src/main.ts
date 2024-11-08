@@ -5,12 +5,7 @@ import App from './App.vue'
 import router from "./router";
 import vuetifyPlugin from "@/plugins/vuetify.ts";
 import {firebaseApp} from "@/plugins/vuefire.ts";
-import {
-    browserLocalPersistence,
-    debugErrorMap,
-    indexedDBLocalPersistence,
-    prodErrorMap,
-} from 'firebase/auth'
+import {browserLocalPersistence, indexedDBLocalPersistence} from 'firebase/auth';
 
 const app = createApp(App);
 
@@ -19,13 +14,9 @@ app.use(VueFire, {
     modules: [
         VueFireAuthWithDependencies({
             dependencies: {
-                errorMap:
-                    import.meta.env.NODE_ENV !== 'production'
-                        ? debugErrorMap
-                        : prodErrorMap,
                 persistence: [
                     indexedDBLocalPersistence,
-                    browserLocalPersistence,
+                    browserLocalPersistence
                 ]
             }
         })

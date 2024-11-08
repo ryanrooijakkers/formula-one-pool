@@ -1,6 +1,6 @@
 <template>
   <div class="page d-flex flex-column-reverse align-center justify-center">
-    <v-card class="mx-auto pa-12 pb-8 login-card" elevation="8" rounded="lg" :min-width="mdAndUp ? '16%' : '80%'">
+    <v-card class="mx-auto pa-12 pb-8 login-card" elevation="8" rounded="lg" :min-width="mdAndUp ? '30%' : '80%'">
 
       <p v-if="!loginIsValid" class="mb-4 text-red">Invalid username/password combination</p>
 

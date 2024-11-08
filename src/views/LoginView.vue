@@ -62,7 +62,7 @@ const signIn = () => {
 .page {
   height: 100%;
   background-color: #1a1a1a;
-  background-image: url("src/assets/login.png");
+  background-image: url("login.png");
   background-size: cover;
   background-position: center;
 }

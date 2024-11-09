@@ -1,5 +1,6 @@
 {
   "singleQuote": true,
   "bracketSameLine": true,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "max_line_length": 200
 }

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createMemoryHistory, createRouter } from 'vue-router';
 import { getCurrentUser } from 'vuefire';
 import LoginView from '@/views/LoginView.vue';
 import HomeView from '@/views/HomeView.vue';
@@ -21,7 +21,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createMemoryHistory(),
   routes
 });
 

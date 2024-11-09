@@ -4,6 +4,7 @@ export class JolpicaDataModel {
 
 export class MRData {
   RaceTable: RaceTable = new RaceTable();
+  DriverTable: DriverTable = new DriverTable();
 }
 
 export class RaceTable {
@@ -11,11 +12,16 @@ export class RaceTable {
   Results: Result[] = [];
 }
 
+export class DriverTable {
+  Drivers: Driver[] = [];
+}
+
 export class RaceModel {
   raceName: string = '';
   season: string = '';
   round: string = '';
   date: string = '';
+  Circuit: Circuit = new Circuit();
 }
 
 export class Result {
@@ -25,10 +31,21 @@ export class Result {
 }
 
 export class Driver {
+  driverId: string = '';
+  season: number = 0;
   givenName: string = '';
   familyName: string = '';
 }
 
 export class FastestLap {
   rank: string = '';
+}
+
+export class Circuit {
+  circuitName: string = '';
+  Location: Location = new Location();
+}
+
+export class Location {
+  country: string = '';
 }

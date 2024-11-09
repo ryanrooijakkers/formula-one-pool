@@ -1,14 +1,18 @@
 <template>
   <div class="w-66 d-flex align-center flex-column">
     <div v-for="race in fetchedRaces" class="mb-6">
-      <Race :race="race" />
+      <Race :race="race" :drivers="fetchedDrivers" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useApi } from '@/composables/useApi.ts';
-import { JolpicaDataModel, RaceModel } from '@/model/JolpicaData.model.ts';
+import {
+  Driver,
+  JolpicaDataModel,
+  RaceModel
+} from '@/model/JolpicaData.model.ts';
 import {
   collection,
   doc,
@@ -25,6 +29,7 @@ import Race from '@/components/Race.vue';
 const { f1DbApi } = useApi();
 
 const fetchedRaces = ref<RaceModel[]>([]);
+const fetchedDrivers = ref<Driver[]>([]);
 const resultsToFetch = ref<string[]>([]);
 const currentRoundIndex = ref<number>(0);
 
@@ -81,7 +86,35 @@ const getNextResult = () => {
   }, 300);
 };
 
-onMounted(() => {
-  getRaces();
+const getDriversForSeason = async () => {
+  const currentYear = moment().year();
+  const documentQuery = query(
+    collection(db, 'drivers'),
+    where('season', '==', currentYear)
+  );
+  fetchedDrivers.value = (await getDocs(documentQuery)).docs.map(
+    (d) => d.data() as Driver
+  );
+  if (
+    fetchedDrivers.value.filter((driver) => driver.season === currentYear)
+      .length === 0
+  ) {
+    console.log('Fetching drivers from api');
+    const response = await f1DbApi.get(`${currentYear}/drivers`);
+    const data = response.data as JolpicaDataModel;
+    const drivers = data.MRData.DriverTable.Drivers;
+    for (const driver of drivers) {
+      await setDoc(doc(db, 'drivers', `${driver.driverId}-${currentYear}`), {
+        ...driver,
+        season: currentYear
+      });
+    }
+    await getDriversForSeason();
+  }
+};
+
+onMounted(async () => {
+  await getRaces();
+  await getDriversForSeason();
 });
 </script>
